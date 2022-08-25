@@ -16,7 +16,7 @@ class MobileRotationClient extends Client {
     {
 
         // These parameters are mandatory
-        $mandatoryParams = ['proxy', 'retry_on_status'];
+        $mandatoryParams = ['proxy'];
         foreach($mandatoryParams as $param){
             if(!isset($config[$param])){
                 throw new \Exception("$param parameter is mandatory");
@@ -29,6 +29,11 @@ class MobileRotationClient extends Client {
             if(isset($config[$param])){
                 throw new \Exception("$param parameter is forbidden");
             }
+        }
+
+        // One of this parameters must be set
+        if(!isset($config['retry_on_status']) && !isset($config['retry_on_content'])){
+            throw new \Exception("retry_on_status or retry_on_content must be set");
         }
 
         // Create handler stack
