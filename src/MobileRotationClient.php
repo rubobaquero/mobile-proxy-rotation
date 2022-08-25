@@ -4,7 +4,6 @@ namespace GuzzleMobileProxy;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
-use GuzzleRetry\GuzzleRetryMiddleware;
 
 class MobileRotationClient extends Client {
 
@@ -34,7 +33,7 @@ class MobileRotationClient extends Client {
 
         // Create handler stack
         $stack = HandlerStack::create();
-        $stack->push(GuzzleRetryMiddleware::factory());
+        $stack->push(MobileRotationGuzzleRetryMiddleware::factory());
 
         // Create rotation controller
         $this->rotationController = new MobileRotationController($config);
