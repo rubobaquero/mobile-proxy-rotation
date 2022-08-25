@@ -13,7 +13,8 @@
   ],
   "require": {
     "php": "^7.1|^8.0",
-    "guzzlehttp/guzzle": "^6.3|^7.0"
+    "guzzlehttp/guzzle": "^6.3|^7.0",
+    "caseyamcl/guzzle_retry_middleware":  "2.7.1"
   },
   "autoload": {
     "psr-4": {
