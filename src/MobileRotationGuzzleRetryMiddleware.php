@@ -8,7 +8,7 @@ use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleRetry\GuzzleRetryMiddleware;
 
-class MobileRotation extends GuzzleRetryMiddleware {
+class MobileRotationGuzzleRetryMiddleware extends GuzzleRetryMiddleware {
 
     /**
      * Check whether to retry a request that received an HTTP response
@@ -38,7 +38,6 @@ class MobileRotation extends GuzzleRetryMiddleware {
             // Conditions met; see if status code matches one that can be retried
             default:
                 $statusCode = $response ? $response->getStatusCode() : 0;
-
                 // If response code is 200, still we have to check if retry_on_content is activated
                 if($statusCode == 200 && isset($options['retry_on_content'])){
                     return mb_strpos($response->getBody(), $options['retry_on_content']) !== FALSE;
