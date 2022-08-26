@@ -52,7 +52,7 @@ class MobileRotationController {
         $this->fcmAuthorization = $config['rotation_fcm_authorization'];
         $this->registrationIds = is_array($config['rotation_registration_ids']) ? $config['rotation_registration_ids'] : array($config['rotation_registration_ids']);
         $this->minTimeBetweenRotations = $config['rotation_min_time_between_rotations'];
-        $this->verbose = $config['rotation_min_time_between_rotations'];
+        $this->verbose = $config['rotation_verbose'];
         $this->verboseAfterAttemptNumber = $config['rotation_verbose_after_attempt_number'];
 
     }
