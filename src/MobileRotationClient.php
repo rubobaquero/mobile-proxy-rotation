@@ -48,7 +48,7 @@ class MobileRotationClient extends Client {
             'timeout' => self::DEFAULT_TIMEOUT,
             'handler' => $stack,
             'connect_timeout' => self::DEFAULT_TIMEOUT,
-            'on_retry_callback' => [$this->rotationController, 'rotate'],
+            'on_retry_callback' => [$this->rotationController, 'on_retry_callback'],
             'retry_on_timeout' => true,
             'give_up_after_secs' => self::DEFAULT_TIMEOUT,
             'default_retry_multiplier' => self::DEFAULT_RETRY_MULTIPLIER,
@@ -59,6 +59,10 @@ class MobileRotationClient extends Client {
 
         return parent::__construct($config);
 
+    }
+
+    public function rotate(){
+        $this->rotationController->rotate();
     }
 
 }

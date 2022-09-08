@@ -59,7 +59,7 @@ class MobileRotationController {
 
 
     // Rotate proxy only if it is not being already rotated
-    public function rotate(int $attemptNumber, float $delay, &$request, array &$options, ?Response $response){
+    public function on_retry_callback(int $attemptNumber, float $delay, &$request, array &$options, ?Response $response){
 
         if($this->verbose && $attemptNumber >= $this->verboseAfterAttemptNumber){
             echo sprintf(
@@ -71,6 +71,12 @@ class MobileRotationController {
                 $attemptNumber
             );
         }
+
+        $this->rotate();
+
+    }
+
+    public function rotate(){
 
         // Only rotate request if the next rotation time has been reached
         $now = new \DateTime();
