@@ -2,7 +2,7 @@
   "name": "rubobaquero/mobile-proxy-rotation",
   "type": "library",
   "description": "Extends Guzzle Client to Manage Automatic Rotation of Mobile Devices via Push Notification",
-  "version": "1.04",
+  "version": "1.05",
   "keywords": [],
   "license": "MIT",
   "authors": [
