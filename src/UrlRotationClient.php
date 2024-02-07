@@ -5,7 +5,7 @@ namespace GuzzleMobileProxy;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 
-class MobileRotationClient extends Client {
+class UrlRotationClient extends Client {
 
     const DEFAULT_TIMEOUT = 150;
     const DEFAULT_RETRY_MULTIPLIER = 1;

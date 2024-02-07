@@ -8,7 +8,7 @@ use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleRetry\GuzzleRetryMiddleware;
 
-class MobileRotationGuzzleRetryMiddleware extends GuzzleRetryMiddleware {
+class RotationGuzzleRetryMiddleware extends GuzzleRetryMiddleware {
 
     /**
      * Check whether to retry a request that received an HTTP response
