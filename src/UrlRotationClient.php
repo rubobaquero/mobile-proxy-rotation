@@ -41,7 +41,7 @@ class UrlRotationClient extends Client {
         $stack->push(RotationGuzzleRetryMiddleware::factory());
 
         // Create rotation controller
-        $this->rotationController = new MobileRotationController($config);
+        $this->rotationController = new UrlRotationController($config);
 
         // Set default config values
         $defaults = [
