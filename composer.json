@@ -2,7 +2,7 @@
   "name": "rubobaquero/mobile-proxy-rotation",
   "type": "library",
   "description": "Extends Guzzle Client to Manage Automatic Rotation of IPs",
-  "version": "1.06",
+  "version": "1.06.1",
   "keywords": [],
   "license": "MIT",
   "authors": [
