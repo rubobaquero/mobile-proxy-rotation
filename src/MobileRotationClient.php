@@ -4,6 +4,9 @@ namespace GuzzleMobileProxy;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class MobileRotationClient extends Client {
 
@@ -36,9 +39,30 @@ class MobileRotationClient extends Client {
             throw new \Exception("retry_on_status or retry_on_content must be set");
         }
 
+        $retryMiddleware = Middleware::retry(
+            function ($retries, RequestInterface $request, ResponseInterface $response = null, \Exception $exception = null) {
+                // Retry on "Connection reset by peer" error
+                if ($exception instanceof \GuzzleHttp\Exception\ConnectException) {
+                    if (strpos($exception->getMessage(), 'Connection reset by peer') !== false) {
+                        return true;
+                    }
+                }
+                else if ($exception instanceof \GuzzleHttp\Exception\RequestException) {
+                    return true;
+                }
+                
+                return false;
+            },
+            function ($retries) {
+                // Wait 1000ms * $retries before retrying
+                return 1000 * $retries;
+            }
+        );
+
         // Create handler stack
         $stack = HandlerStack::create();
         $stack->push(RotationGuzzleRetryMiddleware::factory());
+        $stack->push($retryMiddleware);
 
         // Create rotation controller
         $this->rotationController = new MobileRotationController($config);
