@@ -47,4 +47,40 @@ class RotationGuzzleRetryMiddleware extends GuzzleRetryMiddleware {
         }
     }
 
+    protected function onRejected(RequestInterface $request, array $options): callable
+    {
+        return function (Throwable $reason) use ($request, $options): PromiseInterface {
+            // If was bad response exception, test if we retry based on the response headers
+            if ($reason instanceof BadResponseException) {
+                if ($this->shouldRetryHttpResponse($options, $reason->getResponse())) {
+                    return $this->doRetry($request, $options, $reason->getResponse());
+                }
+                // If this was a connection exception, test to see if we should retry based on connect timeout rules
+            } elseif ($reason instanceof ConnectException) {
+                // If was another type of exception, test if we should retry based on timeout rules
+                if ($this->shouldRetryConnectException($options)) {
+                    return $this->doRetry($request, $options);
+                }
+            } elseif ($reason instanceof RequestException) {
+                // If was another type of exception, test if we should retry based on timeout rules
+                if ($this->shouldRetryRequestException($options, $reason->getResponse())) {
+                    return $this->doRetry($request, $options);
+                }
+            }
+            
+            // If made it here, then we have decided not to retry the request
+            // Future-proofing this; remove when bumping minimum Guzzle version to 7.0
+            if (class_exists('\GuzzleHttp\Promise\Create')) {
+                return \GuzzleHttp\Promise\Create::rejectionFor($reason);
+            } else {
+                return rejection_for($reason);
+            }
+        };
+    }
+    
+    protected function shouldRetryRequestException(array $options, ?ResponseInterface $response = null): bool
+    {
+        return true;
+    }
+
 }
